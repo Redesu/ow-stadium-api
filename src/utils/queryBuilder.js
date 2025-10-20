@@ -1,5 +1,5 @@
 export const buildDynamicHeroesQuery = (filters) => {
-    let query = `SELECT h.name as Hero, h.role, 
+    let query = `SELECT h.id as HeroID, h.name as Hero, h.role, 
     p.name as Passive, p.description FROM heroes 
     h LEFT JOIN passives p ON p.hero_id = h.id WHERE 1 = 1`;
     const params = [];
