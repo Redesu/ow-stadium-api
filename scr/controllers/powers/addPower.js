@@ -1,4 +1,6 @@
-export const getPower = async (req, res) => {
+import db from "../../config/db";
+
+export const getPower = async (req, res, next) => {
     try {
         const power = new Power(req.body);
 

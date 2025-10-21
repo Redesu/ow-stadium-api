@@ -1,8 +1,9 @@
 
 import db from "../../config/db";
 import Hero from "../../models/hero";
+import { buildInsertQuery } from "../../utils/queryBuilder";
 
-export const addHero = async (req, res) => {
+export const addHero = async (req, res, next) => {
     try {
         const hero = new Hero(req.body);
 
@@ -11,12 +12,9 @@ export const addHero = async (req, res) => {
             return res.status(400).json({ message: 'Name and role are required' });
         }
 
-        const result = await db.query(
-            `INSERT INTO heroes (name, role)
-        VALUES ($1, $2)
-        RETURNING *`,
-            [hero.name, hero.role]
-        );
+        const { query, params } = buildInsertQuery('heroes', hero);
+
+        const result = await db.query(query, params);
 
         res.status(201).json(result.rows[0]);
 

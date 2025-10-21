@@ -1,6 +1,8 @@
 import db from "../../config/db";
+import Hero from "../../models/hero";
+import { buildUpdateQuery } from "../../utils/queryBuilder";
 
-export const updateHero = async (req, res) => {
+export const updateHero = async (req, res, next) => {
     try {
         const hero = new Hero(req.body);
 
@@ -9,13 +11,8 @@ export const updateHero = async (req, res) => {
             return res.status(400).json({ message: 'Name and role are required' });
         }
 
-        const result = await db.query(
-            `UPDATE heroes
-        SET name = $1, role = $2
-        WHERE id = $3
-        RETURNING *`,
-            [hero.name, hero.role, req.params.id]
-        );
+        const { query, params } = buildUpdateQuery('heroes', hero, req.params.id);
+        const result = await db.query(query, params);
 
         res.status(200).json(result.rows[0]);
     } catch (err) {

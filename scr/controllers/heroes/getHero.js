@@ -1,7 +1,8 @@
 import db from "../../config/db";
 import Hero from "../../models/hero"
+import { buildDynamicQuery } from "../../utils/queryBuilder";
 
-export const getHero = async (req, res) => {
+export const getHero = async (req, res, next) => {
     try {
         const hero = new Hero(req.body);
 
@@ -10,11 +11,8 @@ export const getHero = async (req, res) => {
             return res.status(400).json({ message: 'Name and role are required' });
         }
 
-        const result = await db.query(
-            `SELECT * FROM heroes
-             WHERE name = $1 AND role = $2`,
-            [hero.name, hero.role]
-        );
+        const { query, params } = buildDynamicQuery(`SELECT * FROM heroes WHERE 1=1`, hero);
+        const result = await db.query(query, params);
 
         res.status(201).json(result.rows[0]);
     } catch (err) {

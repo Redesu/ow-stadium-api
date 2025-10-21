@@ -1,7 +1,7 @@
 import db from "../../config/db";
 import Item from "../../models/item";
 
-export const addItem = async (req, res) => {
+export const addItem = async (req, res, next) => {
     try {
         const item = new Item(req.body);
 

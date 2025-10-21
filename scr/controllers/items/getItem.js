@@ -1,20 +1,18 @@
 import db from "../../config/db";
+import Item from "../../models/item";
+import { buildDynamicQuery } from "../../utils/queryBuilder";
 
-export const addItem = async (req, res) => {
+export const searchItems = async (req, res, next) => {
     try {
-        const item = new Items(req.body);
+        const item = new Item(req.body);
 
         const errors = item.validate();
         if (!errors) {
             return res.status(400).json({ message: 'Name and description are required' });
         }
 
-        const result = await db.query(
-            `SELECT * FROM items
-            WHERE rarity = $1 AND name = $2 AND description = $3 AND price = $4 AND hero_id = $5`,
-            [item.rarity, item.name, item.description, item.price, item.hero_id]
-        );
-
+        const { query, params } = buildDynamicQuery(`SELECT * FROM items WHERE 1=1`, item);
+        const result = await db.query(query, params);
         res.status(201).json(result.rows[0]);
 
     } catch (err) {
