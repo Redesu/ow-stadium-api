@@ -1,8 +1,6 @@
-
 import db from "../../config/db";
-import Hero from "../../models/hero";
 
-export const addHero = async (req, res) => {
+export const updateHero = async (req, res) => {
     try {
         const hero = new Hero(req.body);
 
@@ -12,17 +10,15 @@ export const addHero = async (req, res) => {
         }
 
         const result = await db.query(
-            `INSERT INTO heroes (name, role)
-        VALUES ($1, $2)
+            `UPDATE heroes
+        SET name = $1, role = $2
+        WHERE id = $3
         RETURNING *`,
-            [hero.name, hero.role]
+            [hero.name, hero.role, req.params.id]
         );
 
-        res.status(201).json(result.rows[0]);
-
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         next(err);
     }
-
-
-}
+};

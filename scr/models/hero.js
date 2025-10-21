@@ -1,12 +1,20 @@
 class Hero {
     constructor(id, name, role) {
-        this.id = id;
         this.name = name;
         this.role = role;
-        this.powers = [];
-        this.items = [];
+    }
+
+    validate() {
+        if (!this.name || !this.role) {
+            return false;
+        }
+        return true;
+    }
+
+    isValid() {
+        return this.validate();
     }
 }
 
 
-export default Hero
+export default Hero;

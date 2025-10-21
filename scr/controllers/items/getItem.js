@@ -1,9 +1,8 @@
 import db from "../../config/db";
-import Item from "../../models/item";
 
 export const addItem = async (req, res) => {
     try {
-        const item = new Item(req.body);
+        const item = new Items(req.body);
 
         const errors = item.validate();
         if (!errors) {
@@ -11,14 +10,14 @@ export const addItem = async (req, res) => {
         }
 
         const result = await db.query(
-            `INSERT INTO items (rarity, name, description, price, hero_id)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING *`,
+            `SELECT * FROM items
+            WHERE rarity = $1 AND name = $2 AND description = $3 AND price = $4 AND hero_id = $5`,
             [item.rarity, item.name, item.description, item.price, item.hero_id]
         );
 
         res.status(201).json(result.rows[0]);
+
     } catch (err) {
         next(err);
     }
-}
+};
