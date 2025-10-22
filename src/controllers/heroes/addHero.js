@@ -1,7 +1,7 @@
 
-import db from "../../config/db";
-import Hero from "../../models/hero";
-import { buildInsertQuery } from "../../utils/queryBuilder";
+import db from "../../config/db.js";
+import Hero from "../../models/hero.js";
+import { buildInsertQuery } from "../../utils/queryBuilder.js";
 
 export const addHero = async (req, res, next) => {
     try {
@@ -9,7 +9,7 @@ export const addHero = async (req, res, next) => {
 
         const errors = hero.validate();
         if (!errors) {
-            return res.status(400).json({ message: 'Name and role are required' });
+            return res.status(400).json({ message: 'Name and class are required' });
         }
 
         const { query, params } = buildInsertQuery('heroes', hero);

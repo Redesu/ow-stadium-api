@@ -7,3 +7,5 @@ export * from './items/getItem.js'
 export * from './items/updateItem.js'
 
 export * from './powers/addPower.js'
+export * from './powers/getPower.js'
+export * from './powers/updatePower.js'

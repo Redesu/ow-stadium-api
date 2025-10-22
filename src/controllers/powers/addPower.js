@@ -1,6 +1,7 @@
-import db from "../../config/db";
+import db from "../../config/db.js";
+import { buildInsertQuery } from "../../utils/queryBuilder.js";
 
-export const getPower = async (req, res, next) => {
+export const addPower = async (req, res, next) => {
     try {
         const power = new Power(req.body);
 
@@ -9,10 +10,9 @@ export const getPower = async (req, res, next) => {
             return res.status(400).json({ message: 'Name and description are required' });
         }
 
-        const result = await db.query(
-            `INSERT INTO powers (name, description, price, hero_id)`,
-            [power.name, power.description, power.price, power.hero_id]
-        );
+        const { query, params } = buildInsertQuery('powers', power);
+
+        const result = await db.query(query, params);
 
         res.status(201).json(result.rows[0]);
 

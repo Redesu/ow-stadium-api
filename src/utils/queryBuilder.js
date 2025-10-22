@@ -1,18 +1,17 @@
-import Hero from "../models/hero.js";
-
-export const buildDynamicQuery = (baseQuery, filters) => {
-    let query = baseQuery;
+export const buildDynamicQuery = (tableName, filters) => {
+    let query = `SELECT * FROM ${tableName} WHERE 1 = 1`;
     const params = [];
     let paramCount = 1;
-    Object.keys(filters).forEach((key) => {
-        if (filters[key]) {
-            query += ` AND ${key} = $${paramCount}`;
-            params.push(filters[key]);
+
+    Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+            query += ` AND ${key} ILIKE $${paramCount}`;
+            params.push(value);
             paramCount++;
         }
     });
     return { query, params };
-}
+};
 
 export const buildInsertQuery = (tableName, data) => {
     const columns = [];
@@ -45,9 +44,3 @@ export const buildUpdateQuery = (tableName, data, id) => {
     const query = `UPDATE ${tableName} SET ${columns.join(', ')} WHERE id = $${id} RETURNING *`;
     return { query, params: [...values, id] };
 }
-
-//testing buildUpdateQuery
-
-const hero = new Hero(1, 'name', 'role');
-const { query, params } = buildUpdateQuery('heroes', hero, 1);
-console.log(query, params);

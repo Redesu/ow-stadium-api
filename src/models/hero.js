@@ -1,5 +1,5 @@
 class Hero {
-    constructor(id, name, role) {
+    constructor(name, role) {
         this.name = name;
         this.role = role;
     }
@@ -15,6 +15,5 @@ class Hero {
         return this.validate();
     }
 }
-
 
 export default Hero;

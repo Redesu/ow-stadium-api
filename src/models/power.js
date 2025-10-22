@@ -1,6 +1,5 @@
-class Item {
-    constructor(id, rarity, name, description, price, hero_id = null) {
-        this.rarity = rarity;
+class Power {
+    constructor(name, description, price, hero_id) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -8,7 +7,7 @@ class Item {
     }
 
     validate() {
-        if (!this.name || !this.description || !this.price) {
+        if (!this.name || !this.description || !this.price || !this.hero_id) {
             return false;
         }
         return true;
@@ -18,5 +17,3 @@ class Item {
         return this.validate();
     }
 }
-
-export default Item;

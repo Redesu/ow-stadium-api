@@ -1,5 +1,6 @@
-import db from "../../config/db";
-import Item from "../../models/item";
+import db from "../../config/db.js";
+import Item from "../../models/item.js";
+import { buildInsertQuery } from "../../utils/queryBuilder.js";
 
 export const addItem = async (req, res, next) => {
     try {
@@ -10,12 +11,9 @@ export const addItem = async (req, res, next) => {
             return res.status(400).json({ message: 'Name and description are required' });
         }
 
-        const result = await db.query(
-            `INSERT INTO items (rarity, name, description, price, hero_id)
-        VALUES ($1, $2, $3, $4, $5)
-        RETURNING *`,
-            [item.rarity, item.name, item.description, item.price, item.hero_id]
-        );
+        const { query, params } = buildInsertQuery('items', item);
+
+        const result = await db.query(query, params);
 
         res.status(201).json(result.rows[0]);
     } catch (err) {
