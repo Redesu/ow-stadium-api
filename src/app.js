@@ -12,8 +12,6 @@ app.use('/api/heroes', heroesRouter);
 app.use('/api/items', itemsRouter);
 app.use('/api/powers', powersRouter);
 
-app.use
-
 app.use(errorHandler);
 
 export default app;

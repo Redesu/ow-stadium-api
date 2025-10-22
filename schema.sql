@@ -32,6 +32,18 @@ CREATE TABLE IF NOT EXISTS items(
     ON DELETE CASCADE
 )
 
+CREATE TABLE IF NOT EXISTS items_stats(
+    id SERIAL PRIMARY KEY,
+    item_id INTEGER NOT NULL,
+    stat_type VARCHAR(50) NOT NULL,
+    stat_value INTEGER NOT NULL,
+    stat_unit VARCHAR(10) NOT NULL,
+    stat_modifier VARCHAR(10) DEFAULT '+',
+    CONSTRAINT fk_items_stats_item FOREIGN KEY (item_id) 
+        REFERENCES items(id) 
+        ON DELETE CASCADE
+)
+
 CREATE TABLE IF NOT EXISTS hero_items(
     hero_id INTEGER NOT NULL,
     item_id INTEGER NOT NULL,
