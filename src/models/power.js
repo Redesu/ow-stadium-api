@@ -1,8 +1,9 @@
 class Power {
-    constructor(name, description, price, hero_id) {
+    constructor(name, description, hero_id, image_url) {
         this.name = name;
         this.description = description;
         this.hero_id = hero_id;
+        this.image_url = image_url;
     }
 
     validate() {
@@ -16,3 +17,5 @@ class Power {
         return this.validate();
     }
 }
+
+export default Power;

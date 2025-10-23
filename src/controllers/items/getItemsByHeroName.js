@@ -1,11 +1,11 @@
-import db from "../../config/db";
+import db from "../../config/db.js";
 
 export const getItemsByHeroName = async (req, res, next) => {
     try {
         const { heroName } = req.params;
 
         const result = await db.query(`SELECT * FROM ITEMS i
-            INNER JOIN HEROES h
+            INNER JOIN HEROES h ON i.hero_id = h.id
             WHERE h.name ILIKE $1`, [heroName]);
 
         if (result.rows.length === 0) {

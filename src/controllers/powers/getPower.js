@@ -1,9 +1,11 @@
 import db from "../../config/db.js";
+import Power from "../../models/power.js";
 import { buildDynamicQuery } from "../../utils/queryBuilder.js";
 
 export const searchPowers = async (req, res, next) => {
     try {
-        const power = new Power(req.query);
+        const { name, description, hero_id, image_url } = req.query;
+        const power = new Power(name, description, hero_id, image_url);
 
         const { query, params } = buildDynamicQuery('powers', power);
         const result = await db.query(query, params);
