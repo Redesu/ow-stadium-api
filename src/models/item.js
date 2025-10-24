@@ -9,7 +9,7 @@ class Item {
     }
 
     validate() {
-        if (!this.name || !this.description || !this.price || !this.image_url) {
+        if (!this.rarity || !this.name || !this.description || !this.price || !this.image_url) {
             return false;
         }
         return true;

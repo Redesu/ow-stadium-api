@@ -9,7 +9,7 @@ export const addHero = async (req, res, next) => {
 
         const errors = hero.validate();
         if (!errors) {
-            return res.status(400).json({ message: 'Name and class are required' });
+            return res.status(400).json({ message: 'Name and role are required' });
         }
 
         const { query, params } = buildInsertQuery('heroes', hero);

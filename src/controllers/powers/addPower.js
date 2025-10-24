@@ -1,4 +1,5 @@
 import db from "../../config/db.js";
+import Power from "../../models/power.js";
 import { buildInsertQuery } from "../../utils/queryBuilder.js";
 
 export const addPower = async (req, res, next) => {

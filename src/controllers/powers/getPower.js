@@ -14,7 +14,7 @@ export const searchPowers = async (req, res, next) => {
             return res.status(404).json({ message: 'Power not found' });
         }
 
-        res.status(201).json(result.rows);
+        res.status(200).json(result.rows);
     } catch (err) {
         next(err);
     }
