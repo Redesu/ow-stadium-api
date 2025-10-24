@@ -14,18 +14,33 @@ export const buildDynamicQuery = (tableName, filters) => {
 };
 
 export const buildDynamicItemsQuery = (filters) => {
-    let query = `SELECT i.rarity, i.name,  s.stat_type,
-            s.stat_value, s.stat_unit,
-            s.stat_modifier,  i.description,
-            i.type, i.price, i.image_url FROM ITEMS i
+
+    const includeImage = filters.image_url !== 'false';
+
+    const selectedFilters = [
+        'i.rarity',
+        'i.name',
+        's.stat_type',
+        's.stat_value',
+        's.stat_unit',
+        's.stat_modifier',
+        'i.description',
+        'i.type',
+        'i.price'
+    ]
+
+    if (includeImage) selectedFilters.push('i.image_url');
+
+    let query = `SELECT ${selectedFilters.join(', ')} FROM ITEMS i
             INNER JOIN ITEMS_STATS s ON i.id = s.item_id WHERE 1 = 1`;
     const params = [];
     let paramCount = 1;
 
     const numeric_fields = ['price', 'hero_id'];
-    const string_fields = ['rarity', 'name', 'description', 'type', 'image_url'];
+    const string_fields = ['rarity', 'name', 'description', 'type'];
 
     Object.entries(filters).forEach(([key, value]) => {
+        if (key === 'image_url') return;
         if (numeric_fields.includes(key) && value !== undefined && value !== null) {
             query += ` AND ${key} = $${paramCount}`;
             params.push(value);
