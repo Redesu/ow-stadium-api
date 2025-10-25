@@ -13,6 +13,34 @@ export const buildDynamicQuery = (tableName, filters) => {
     return { query, params };
 };
 
+export const buildDynamicPowersQuery = (filters) => {
+    const includeImage = filters.image_url !== 'false';
+
+    const selectedFilters = [
+        'h.name',
+        'p.name',
+        'p.description'
+    ]
+
+    if (includeImage) selectedFilters.push('p.image_url');
+
+    let query = `SELECT ${selectedFilters.join(', ')} FROM POWERS p
+            INNER JOIN heroes h ON p.hero_id = h.id WHERE 1 = 1`
+    const params = [];
+    let paramCount = 1;
+
+    Object.entries(filters).forEach(([key, value]) => {
+        if (key === 'image_url') return;
+        if (value !== undefined && value !== null) {
+            query += ` AND ${key} ILIKE $${paramCount}`;
+            params.push(value);
+            paramCount++;
+        }
+    });
+
+    return { query, params };
+}
+
 export const buildDynamicItemsQuery = (filters) => {
 
     const includeImage = filters.image_url !== 'false';
