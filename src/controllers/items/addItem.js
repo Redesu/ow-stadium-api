@@ -8,7 +8,7 @@ export const addItem = async (req, res, next) => {
 
         const errors = item.validate();
         if (!errors) {
-            return res.status(400).json({ message: 'Name and description are required' });
+            return res.status(400).json({ message: 'Missing required fields' });
         }
 
         const { query, params } = buildInsertQuery('items', item);

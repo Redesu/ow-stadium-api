@@ -2,6 +2,7 @@ import 'dotenv/config.js'
 
 const config = {
     port: process.env.PORT || 3000,
+    url: process.env.URL,
     env: process.env.NODE_ENV,
     dbUser: process.env.DB_USER,
     dbPassword: process.env.DB_PASSWORD,

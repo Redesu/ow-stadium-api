@@ -58,3 +58,14 @@ CREATE TABLE IF NOT EXISTS hero_items(
         REFERENCES items(id) 
         ON DELETE CASCADE
 )
+
+CREATE TABLE IF NOT EXISTS passives(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL
+    hero_id INTEGER NOT NULL,
+    image_url TEXT,
+    CONSTRAINT FK_PASSIVES_HERO FOREIGN KEY (hero_id)
+    REFERENCES heroes(id)
+    ON DELETE CASCADE
+)

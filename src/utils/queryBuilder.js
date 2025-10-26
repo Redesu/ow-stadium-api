@@ -1,11 +1,13 @@
-export const buildDynamicQuery = (tableName, filters) => {
-    let query = `SELECT * FROM ${tableName} WHERE 1 = 1`;
+export const buildDynamicHeroesQuery = (filters) => {
+    let query = `SELECT h.name as Hero, h.role, 
+    p.name as Passive, p.description FROM heroes 
+    h LEFT JOIN passives p ON p.hero_id = h.id WHERE 1 = 1`;
     const params = [];
     let paramCount = 1;
 
     Object.entries(filters).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
-            query += ` AND ${key} ILIKE $${paramCount}`;
+            query += ` AND h.${key} ILIKE $${paramCount}`;
             params.push(value);
             paramCount++;
         }
@@ -17,7 +19,7 @@ export const buildDynamicPowersQuery = (filters) => {
     const includeImage = filters.image_url !== 'false';
 
     const selectedFilters = [
-        'h.name',
+        'h.name as Hero',
         'p.name',
         'p.description'
     ]
@@ -29,9 +31,16 @@ export const buildDynamicPowersQuery = (filters) => {
     const params = [];
     let paramCount = 1;
 
+    const numeric_fields = ['hero_id'];
+    const string_fields = ['name', 'description'];
+
     Object.entries(filters).forEach(([key, value]) => {
         if (key === 'image_url') return;
-        if (value !== undefined && value !== null) {
+        if (numeric_fields.includes(key) && value !== undefined && value !== null) {
+            query += ` AND ${key} = $${paramCount}`;
+            params.push(value);
+            paramCount++;
+        } else if (string_fields.includes(key) && value !== undefined && value !== null) {
             query += ` AND ${key} ILIKE $${paramCount}`;
             params.push(value);
             paramCount++;

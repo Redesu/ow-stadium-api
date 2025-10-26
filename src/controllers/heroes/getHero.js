@@ -1,6 +1,6 @@
 import db from "../../config/db.js";
 import Hero from "../../models/hero.js"
-import { buildDynamicQuery } from "../../utils/queryBuilder.js";
+import { buildDynamicHeroesQuery } from "../../utils/queryBuilder.js";
 
 export const searchHeroes = async (req, res, next) => {
     try {
@@ -8,7 +8,7 @@ export const searchHeroes = async (req, res, next) => {
         const role = req.query.role;
         const hero = new Hero(name, role);
 
-        const { query, params } = buildDynamicQuery('heroes', hero);
+        const { query, params } = buildDynamicHeroesQuery(hero);
         const result = await db.query(query, params);
 
         if (result.rows.length === 0) {

@@ -9,7 +9,7 @@ export const getItemsByHeroName = async (req, res, next) => {
         }
 
         const result = await db.query(`
-            SELECT i.rarity, i.name,  s.stat_type,
+            SELECT i.rarity, h.name as Hero, i.name,  s.stat_type,
             s.stat_value, s.stat_unit,
             s.stat_modifier,  i.description,
             i.type, i.price, i.image_url FROM ITEMS i
