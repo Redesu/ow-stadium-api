@@ -37,15 +37,16 @@ export const buildDynamicPowersQuery = (filters) => {
     Object.entries(filters).forEach(([key, value]) => {
         if (key === 'image_url') return;
         if (numeric_fields.includes(key) && value !== undefined && value !== null) {
-            query += ` AND ${key} = $${paramCount}`;
+            query += ` AND p.${key} = $${paramCount}`;
             params.push(value);
             paramCount++;
         } else if (string_fields.includes(key) && value !== undefined && value !== null) {
-            query += ` AND ${key} ILIKE $${paramCount}`;
+            query += ` AND p.${key} ILIKE $${paramCount}`;
             params.push(value);
             paramCount++;
         }
     });
+    console.log(query, params);
 
     return { query, params };
 }
@@ -107,18 +108,26 @@ export const buildInsertQuery = (tableName, data) => {
 
 }
 
-
-export const buildUpdateQuery = (tableName, data, id) => {
-    const columns = [];
-    const params = [];
+export const buildPartialUpdateQuery = (tableName, data, identifierColumn = 'name') => {
+    const updates = [];
     const values = [];
+    let paramCount = 1;
 
-    Object.keys(data).forEach((key) => {
-        columns.push(`${key} = $${key}`);
-        params.push(`$${key}`);
-        values.push(data[key]);
+    Object.entries(data).forEach(([key, value]) => {
+        if (key !== identifierColumn && value !== undefined) {
+            updates.push(`${key} = $${paramCount}`);
+            values.push(value);
+            paramCount++;
+        }
     });
 
-    const query = `UPDATE ${tableName} SET ${columns.join(', ')} WHERE id = $${id} RETURNING *`;
-    return { query, params: [...values, id] };
+    values.push(data[identifierColumn]);
+
+    const query = `
+        UPDATE ${tableName} 
+        SET ${updates.join(', ')} 
+        WHERE ${identifierColumn} = $${paramCount} 
+        RETURNING *`;
+
+    return { query, params: values };
 }
