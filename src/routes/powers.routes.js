@@ -102,16 +102,8 @@ router.get('/', searchPowers);
  *           schema:
  *             type: object
  *             required:
- *               - id
  *               - name
- *               - description
- *               - hero_id
- *               - image_url
  *             properties:
- *               id:
- *                 type: number
- *                 description: The power id
- *                 example: 1
  *               name:
  *                 type: string
  *                 description: The power name

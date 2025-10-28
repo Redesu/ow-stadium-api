@@ -118,7 +118,7 @@ router.get('/', searchItems);
  *          schema: 
  *            type: object 
  *            required: 
- *              - id
+ *              - name
  *            properties: 
  *              id: 
  *                type: number
