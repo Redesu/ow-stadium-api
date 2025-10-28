@@ -1,5 +1,5 @@
-import db from "../config/db";
-import { buildDynamicItemsQuery, buildDynamicPowersQuery, buildPartialUpdateQuery } from "../utils/queryBuilder";
+import db from "../config/db.js";
+import { buildDynamicItemsQuery, buildDynamicPowersQuery, buildPartialUpdateQuery } from "../utils/queryBuilder.js";
 
 export const updater = async (req, res, next) => {
     try {
@@ -10,7 +10,7 @@ export const updater = async (req, res, next) => {
         console.log('Identifying if item is power or item by fetching the original description...');
         console.log(data);
 
-        const powerQuery = buildDynamicPowersQuery(data);
+        const powerQuery = buildDynamicPowersQuery(data.name);
         const powerResult = await db.query(powerQuery.query, powerQuery.params);
 
         if (powerResult.rows.length > 0) {
@@ -18,7 +18,7 @@ export const updater = async (req, res, next) => {
             originalDescription = powerResult.rows[0]['description'];
             console.log('Entity found in "powers" table.');
         } else {
-            const itemQuery = buildDynamicItemsQuery(data);
+            const itemQuery = buildDynamicItemsQuery(data.name);
             const itemResult = await db.query(itemQuery.query, itemQuery.params);
 
             if (itemResult.rows.length > 0) {
@@ -39,12 +39,18 @@ export const updater = async (req, res, next) => {
             { description: updatedDescription },
             data.name
         );
+        console.log('query:', query);
+        console.log('params:', params);
 
-        const result = await db.query(query, params);
+        const result = true
+        // comenting for testing
+        // const result = await db.query(query, params);
 
 
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows[0]);
+        // if (result.rows.length > 0) {
+        //     res.status(200).json(result.rows[0]);
+        if (result) {
+            res.status(200).json();
         } else {
             res.status(404).json({ message: 'Entity not found for update (invalid ID).' });
         }
@@ -55,7 +61,7 @@ export const updater = async (req, res, next) => {
 }
 
 function updateDescription(body, originalDescription) {
-    const descriptionUpdate = body.description;
+    const descriptionUpdate = body;
 
     const updateMatch = descriptionUpdate.match(/(\d+\.?\d*)(%|s)?/);
 
