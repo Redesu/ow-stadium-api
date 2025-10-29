@@ -46,7 +46,6 @@ export const buildDynamicPowersQuery = (filters) => {
             paramCount++;
         }
     });
-    console.log(query, params);
 
     return { query, params };
 }

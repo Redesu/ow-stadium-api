@@ -4,53 +4,42 @@ import { buildDynamicItemsQuery, buildDynamicPowersQuery, buildPartialUpdateQuer
 export const updater = async (req, res, next) => {
     try {
         const data = req.body;
+        const name = { name: data.name };
         let tableName;
         let originalDescription;
 
-        console.log('Identifying if item is power or item by fetching the original description...');
-        console.log(data);
 
-        const powerQuery = buildDynamicPowersQuery(data.name);
-        const powerResult = await db.query(powerQuery.query, powerQuery.params);
+        const { query: powerQuery, params: powerParams } = buildDynamicPowersQuery(name);
+        const powerResult = await db.query(powerQuery, powerParams);
 
         if (powerResult.rows.length > 0) {
             tableName = 'powers';
             originalDescription = powerResult.rows[0]['description'];
-            console.log('Entity found in "powers" table.');
         } else {
-            const itemQuery = buildDynamicItemsQuery(data.name);
-            const itemResult = await db.query(itemQuery.query, itemQuery.params);
+            const { query: itemQuery, params: itemParams } = buildDynamicItemsQuery(name);
+            const itemResult = await db.query(itemQuery, itemParams);
 
             if (itemResult.rows.length > 0) {
                 tableName = 'items';
                 originalDescription = itemResult.rows[0]['description'];
-                console.log('Entity found in "items" table.');
             } else {
-                console.log('No item or power found for the provided data.');
                 return res.status(404).json({ message: 'Entity not found.' });
             }
         }
 
         const updatedDescription = updateDescription(data.description, originalDescription);
-        console.log(`Updated description: ${updatedDescription}`);
 
         const { query, params } = buildPartialUpdateQuery(
             tableName,
-            { description: updatedDescription },
-            data.name
+            { description: updatedDescription, name: data.name },
+            'name'
         );
-        console.log('query:', query);
-        console.log('params:', params);
 
-        const result = true
-        // comenting for testing
-        // const result = await db.query(query, params);
+        const result = await db.query(query, params);
 
 
-        // if (result.rows.length > 0) {
-        //     res.status(200).json(result.rows[0]);
-        if (result) {
-            res.status(200).json();
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows[0]);
         } else {
             res.status(404).json({ message: 'Entity not found for update (invalid ID).' });
         }
@@ -72,10 +61,16 @@ function updateDescription(body, originalDescription) {
     const newValue = updateMatch[1];
     const unit = updateMatch[2] || '';
 
-    const updatedDescription = originalDescription.replace(
-        /(\d+\.?\d*)(%|s)?/,
-        `${newValue}${unit}`
-    );
+    let patternToReplace;
+    if (unit) {
+        patternToReplace = new RegExp(`\\b(\\d+\\.?\\d*)${unit}(?=\\s|$)`);
+    } else {
+        patternToReplace = new RegExp(`\\b(\\d+\\.?\\d*)(?=\\s)`);
+    }
 
-    return updatedDescription;
+    if (patternToReplace.test(originalDescription)) {
+        return originalDescription.replace(patternToReplace, `${newValue}${unit}`);
+    }
+
+    return originalDescription;
 }
