@@ -21,6 +21,7 @@ const router = Router();
  *             required:
  *               - rarity
  *               - name
+ *               - type
  *               - description
  *               - price
  *             properties:
@@ -32,6 +33,10 @@ const router = Router();
  *                 type: string
  *                 description: The item name
  *                 example: Eye of the Spider
+ *               type:
+ *                 type: string
+ *                 description: The item type
+ *                 example: Hero Item (Weapon)
  *               description:
  *                 type: string
  *                 description: The item description
@@ -75,6 +80,11 @@ router.post('/', protect, addItem);
  *         schema:
  *          type: string
  *         description: The Item name
+ *       - in: query
+ *         name: type
+ *         schema:
+ *          type: string
+ *         description: The Item type (gadget, Hero Item (Survival), Hero Item (Weapon), Hero Item (Ability))
  *       - in: query
  *         name: description
  *         schema:

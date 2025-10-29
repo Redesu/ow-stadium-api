@@ -4,8 +4,8 @@ import { buildDynamicItemsQuery } from "../../utils/queryBuilder.js";
 
 export const searchItems = async (req, res, next) => {
     try {
-        const { rarity, name, description, price, image_url, hero_id } = req.query;
-        const item = new Item(rarity, name, description, price, image_url, hero_id);
+        const { rarity, name, type, description, price, image_url, hero_id } = req.query;
+        const item = new Item(rarity, name, type, description, price, image_url, hero_id);
 
         const { query, params } = buildDynamicItemsQuery(item);
 

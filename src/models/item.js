@@ -1,7 +1,8 @@
 class Item {
-    constructor(rarity, name, description, price, image_url, hero_id = null) {
+    constructor(rarity, name, type, description, price, image_url, hero_id = null) {
         this.rarity = rarity;
         this.name = name;
+        this.type = type;
         this.description = description;
         this.price = price;
         this.image_url = image_url;
@@ -9,7 +10,7 @@ class Item {
     }
 
     validate() {
-        if (!this.rarity || !this.name || !this.description || !this.price || !this.image_url) {
+        if (!this.rarity || !this.name || !this.description || !this.price || !this.image_url || !this.type) {
             return false;
         }
         return true;
