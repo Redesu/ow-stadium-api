@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: masterkey
+      POSTGRES_DB: ow-stadium-api
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    ports:
+      - "7000:7000"
+    environment:
+      DATABASE_URL: postgresql://postgres:masterkey@postgres:5432/mydb
+      NODE_ENV: production
+    depends_on:
+      - postgres
+    env_file:
+      - .env.docker
+
+volumes:
+  postgres_data:
