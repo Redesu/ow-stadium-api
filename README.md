@@ -4,7 +4,7 @@ A back-end RESTful API for managing Overwatch-style heroes, powers, and items. B
 
 -----
 
-## You can find the live API documentation [HERE]()
+## You can find the live API documentation [HERE](https://ow-stadium-api.redesu.com.br/)
 
 *(Port may vary based on your `.env` configuration)*
 
