@@ -15,13 +15,13 @@ const options = {
         },
         servers: [
             {
+                url: 'https://ow-stadium-api.redesu.com.br',
+                description: 'Production'
+            },
+            {
                 url: 'http://localhost:7000',
                 description: 'Development'
             },
-            {
-                url: '',
-                description: 'Production'
-            }
         ],
     },
     components: {
