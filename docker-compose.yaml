@@ -9,11 +9,18 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
+  nginx:
+     image: nginx:alpine
+     ports:
+       - "80:80"
+     volumes:
+       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+     depends_on:
+       - app
   app:
     build: .
-    ports:
-      - "7000:7000"
+    expose:
+      - "7000"
     environment:
       DATABASE_URL: postgresql://postgres:masterkey@postgres:5432/mydb
       NODE_ENV: production
