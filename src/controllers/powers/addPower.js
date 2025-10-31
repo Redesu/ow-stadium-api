@@ -4,7 +4,8 @@ import { buildInsertQuery } from "../../utils/queryBuilder.js";
 
 export const addPower = async (req, res, next) => {
     try {
-        const power = new Power(req.body);
+        const { name, description, hero_id, image_url } = req.body;
+        const power = new Power(name, description, hero_id, image_url);
 
         const errors = power.validate();
         if (!errors) {

@@ -13,7 +13,7 @@ const router = Router();
  *     summary: Create a new hero
  *     tags: [Heroes]
  *     security:
- *      - bearerAuth: [admin]
+ *      - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
