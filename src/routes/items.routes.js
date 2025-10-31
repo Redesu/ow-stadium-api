@@ -100,7 +100,7 @@ router.post('/', protect, addItem);
  *         name: image_url
  *         schema:
  *          type: boolean
- *         description: Determine if it should return the image url or not
+ *         description: Determine if it should return the image url or not, default is false
  *       - in: query
  *         name: hero_id
  *         schema:
