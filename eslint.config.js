@@ -7,6 +7,7 @@ export default defineConfig([
         rules: {
             "prefer-const": "warn",
             "no-constant-binary-expression": "error",
+            "no-unused-vars": "warn",
         },
     },
 ]);

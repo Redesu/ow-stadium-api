@@ -2,6 +2,7 @@ import { Router } from "express";
 import { protect } from "../middleware/auth.middleware.js";
 import { addHero, getPowersByHeroName, searchHeroes, updateHero } from "../controllers/index.js";
 import { getItemsByHeroName } from "../controllers/items/getItemsByHeroName.js";
+import { cacheMiddleware } from "../middleware/cache.middleware.js";
 
 const router = Router();
 
@@ -62,7 +63,7 @@ router.post('/', protect, addHero);
  *       404:
  *         description: Hero not found
  */
-router.get('/', searchHeroes);
+router.get('/', cacheMiddleware, searchHeroes);
 
 /**
  * @swagger
@@ -85,7 +86,7 @@ router.get('/', searchHeroes);
  *       404:
  *         description: Power or hero not found
  */
-router.get('/:heroName/powers', getPowersByHeroName);
+router.get('/:heroName/powers', cacheMiddleware, getPowersByHeroName);
 
 /**
  * @swagger
@@ -108,7 +109,7 @@ router.get('/:heroName/powers', getPowersByHeroName);
  *       404:
  *         description: Items or Hero not found
  */
-router.get('/:heroName/items', getItemsByHeroName);
+router.get('/:heroName/items', cacheMiddleware, getItemsByHeroName);
 
 /**
  * @swagger

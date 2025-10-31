@@ -3,14 +3,23 @@ import db from "../../config/db.js";
 export const getPowersByHeroName = async (req, res, next) => {
     try {
         const { heroName } = req.params;
+        const { image_url } = req.query;
 
 
         if (!heroName) {
             return res.status(400).json({ message: 'Hero name is required' });
         }
 
+        const selectedFilters = [
+            'h.name as Hero',
+            'p.name',
+            'p.description',
+        ]
+
+        if (image_url === 'true') selectedFilters.push('p.image_url');
+
         const result = await db.query(`
-            SELECT p.name, p.description, p.image_url
+            SELECT ${selectedFilters.join(', ')}
             FROM POWERS p
             INNER JOIN HEROES h ON p.hero_id = h.id
             WHERE h.name ILIKE $1`, [heroName]);
