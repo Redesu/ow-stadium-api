@@ -78,6 +78,11 @@ router.get('/', cacheMiddleware, searchHeroes);
  *         type: string
  *         required: true
  *         description: The Hero name
+ *       - in: query
+ *         name: image_url
+ *         schema:
+ *          type: boolean
+ *         description: Determine if it should return the image url or not, default is false
  *     responses:
  *       200:
  *         description: Found Hero/Heroes
@@ -101,6 +106,11 @@ router.get('/:heroName/powers', cacheMiddleware, getPowersByHeroName);
  *         type: string
  *         required: true
  *         description: The Hero name
+ *       - in: query
+ *         name: image_url
+ *         schema:
+ *          type: boolean
+ *         description: Determine if it should return the image url or not, default is false 
  *     responses:
  *       200:
  *         description: Found Hero/Heroes
