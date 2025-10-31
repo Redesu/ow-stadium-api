@@ -1,6 +1,7 @@
 import { protect } from "../middleware/auth.middleware.js";
 import { Router } from "express";
 import { addItem, searchItems, updateItem } from "../controllers/index.js";
+import { cacheMiddleware } from "../middleware/cache.middleware.js";
 
 const router = Router();
 
@@ -111,7 +112,7 @@ router.post('/', protect, addItem);
  *       404:
  *         description: Item not found
  */
-router.get('/', searchItems);
+router.get('/', cacheMiddleware, searchItems);
 
 /**
  * @swagger

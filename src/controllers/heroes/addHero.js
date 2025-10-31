@@ -22,5 +22,4 @@ export const addHero = async (req, res, next) => {
         next(err);
     }
 
-
 }

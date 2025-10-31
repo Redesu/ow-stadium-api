@@ -1,6 +1,7 @@
 import { protect } from "../middleware/auth.middleware.js";
 import { Router } from "express";
 import { addPower, searchPowers, updatePower } from "../controllers/index.js";
+import { cacheMiddleware } from "../middleware/cache.middleware.js";
 
 const router = Router();
 
@@ -85,7 +86,7 @@ router.post('/', protect, addPower);
  *       404:
  *         description: Power not found
  */
-router.get('/', searchPowers);
+router.get('/', cacheMiddleware, searchPowers);
 
 /**
  * @swagger

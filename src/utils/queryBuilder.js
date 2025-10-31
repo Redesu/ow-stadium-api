@@ -16,7 +16,9 @@ export const buildDynamicHeroesQuery = (filters) => {
 };
 
 export const buildDynamicPowersQuery = (filters) => {
-    const includeImage = filters.image_url !== 'false';
+    console.log('filters:', filters.image_url)
+    const includeImage = filters.image_url === 'true';
+    console.log(includeImage)
 
     const selectedFilters = [
         'h.name as Hero',
@@ -52,7 +54,7 @@ export const buildDynamicPowersQuery = (filters) => {
 
 export const buildDynamicItemsQuery = (filters) => {
 
-    const includeImage = filters.image_url !== 'false';
+    const includeImage = filters.image_url === 'true';
 
     const selectedFilters = [
         'i.rarity',

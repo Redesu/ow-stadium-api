@@ -6,6 +6,7 @@ import powersRouter from './routes/powers.routes.js';
 import syncRouter from './routes/sync.routes.js';
 import { serve, setup } from 'swagger-ui-express';
 import { swaggerSpec } from '../swagger.js';
+import radisClient from './config/redis.js'
 
 const app = express();
 
