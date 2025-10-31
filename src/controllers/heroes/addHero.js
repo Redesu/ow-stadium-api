@@ -5,7 +5,8 @@ import { buildInsertQuery } from "../../utils/queryBuilder.js";
 
 export const addHero = async (req, res, next) => {
     try {
-        const hero = new Hero(req.body);
+        const { name, role } = req.body;
+        const hero = new Hero(name, role);
 
         const errors = hero.validate();
         if (!errors) {

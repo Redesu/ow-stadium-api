@@ -4,7 +4,8 @@ import { buildPartialUpdateQuery } from "../../utils/queryBuilder.js";
 
 export const updateHero = async (req, res, next) => {
     try {
-        const hero = new Hero(req.body);
+        const { name, role } = req.body;
+        const hero = new Hero(name, role);
 
         const { query, params } = buildPartialUpdateQuery('heroes', hero);
         const result = await db.query(query, params);

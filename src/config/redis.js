@@ -4,7 +4,14 @@ const client = createClient({
     url: process.env.REDIS_URL || 'redis://localhost:6379'
 })
 
-client.on('error', err => console.log('Redis Client Error', err));
+let errorLogged = false;
+
+client.on('error', err => {
+    if (!errorLogged) {
+        console.error('Redis Client Error', err);
+        errorLogged = true;
+    }
+});
 client.on('connect', () => console.log('Redis Client Connected'));
 
 client.connect();

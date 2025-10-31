@@ -98,9 +98,9 @@ export const buildInsertQuery = (tableName, data) => {
     const params = [];
     const values = [];
 
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach((key, index) => {
         columns.push(key);
-        params.push(`$${key}`);
+        params.push(`$${index + 1}`);
         values.push(data[key]);
     });
 

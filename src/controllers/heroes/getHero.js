@@ -4,8 +4,7 @@ import { buildDynamicHeroesQuery } from "../../utils/queryBuilder.js";
 
 export const searchHeroes = async (req, res, next) => {
     try {
-        const name = req.query.name;
-        const role = req.query.role;
+        const { name, role } = req.query;
         const hero = new Hero(name, role);
 
         const { query, params } = buildDynamicHeroesQuery(hero);

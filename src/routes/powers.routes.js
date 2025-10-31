@@ -95,7 +95,7 @@ router.get('/', cacheMiddleware, searchPowers);
  *     summary: Updates a power
  *     tags: [Powers]
  *     security:
- *      - bearerAuth: [admin]
+ *      - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:

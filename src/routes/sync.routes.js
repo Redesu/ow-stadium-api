@@ -11,7 +11,7 @@ const router = Router();
  *     summary: Syncs Items and powers based on the patch notes balances changes
  *     tags: [Sync]
  *     security:
- *      - bearerAuth: [admin]
+ *      - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
