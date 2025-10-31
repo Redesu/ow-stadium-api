@@ -7,12 +7,21 @@ import syncRouter from './routes/sync.routes.js';
 import { serve, setup } from 'swagger-ui-express';
 import { swaggerSpec } from '../swagger.js';
 import radisClient from './config/redis.js'
+import rateLimit from 'express-rate-limit';
+
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 50,
+    message: 'Too many requests from this IP, please try again after 15 minutes',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 
 const app = express();
 
 app.use(express.json());
 
-
+app.use('/api/', apiLimiter);
 app.use('/api/heroes', heroesRouter);
 app.use('/api/items', itemsRouter);
 app.use('/api/powers', powersRouter);
