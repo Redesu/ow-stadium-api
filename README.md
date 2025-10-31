@@ -1,6 +1,6 @@
 # ow-stadium-api
 
-A back-end RESTful API for managing Overwatch-style heroes, powers, and items. Built with **Node.js**, **Express**, and **PostgreSQL**. Includes **Swagger** for live API documentation.
+A back-end RESTful API for managing Overwatch-style heroes, powers, and items. Built with **Node.js**, **Express**, and **PostgreSQL**. Includes **Swagger** for live API documentation and **Redis** for caching.
 
 -----
 
@@ -23,12 +23,12 @@ A back-end RESTful API for managing Overwatch-style heroes, powers, and items. B
 ```
 .
 ├── src/
-│   ├── config/             # Database (db.js) and app (config.js) configuration
+│   ├── config/             # Database (db.js), Redis (redis.js) and app (config.js) configuration
 │   ├── controllers/        # Request handling logic for each resource
 │   │   ├── heroes/
 │   │   ├── items/
 │   │   └── powers/
-│   ├── middleware/         # Custom middleware (auth.middleware.js, errorHandler.js)
+│   ├── middleware/         # Custom middleware (auth.middleware.js, cache.middleware.js, errorHandler.js)
 │   ├── models/             # Data models (Hero, Item, Power)
 │   ├── routes/             # API route definitions (heroes.routes.js, etc.)
 │   ├── sync/               # Logic for the /api/sync endpoint (updater.js)
@@ -50,6 +50,7 @@ A back-end RESTful API for managing Overwatch-style heroes, powers, and items. B
   - **Node.js** (v18+ recommended)
   - **npm** (or yarn, pnpm, bun)
   - **PostgreSQL** instance (Cloud or local)
+  - **Redis** instance (Cloud or local)
 
 -----
 
