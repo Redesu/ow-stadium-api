@@ -17,7 +17,10 @@ const apiLimiter = rateLimit({
     legacyHeaders: false,
 });
 
+
 const app = express();
+
+app.set('trust proxy', 2)
 
 app.use(express.json());
 
