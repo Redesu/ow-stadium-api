@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:18-alpine
+    container_name: ow-stadium-api-db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: /run/secrets/db_password
@@ -22,6 +23,7 @@ services:
        - app
   redis:
     image: redis:alpine
+    container_name: ow-stadium-api-redis
     ports:
       - "6379:6379"
     volumes:
@@ -29,6 +31,7 @@ services:
     command: redis-server --appendonly yes
   app:
     build: .
+    container_name: ow-stadium-api
     expose:
       - "7000"
     environment:
@@ -40,6 +43,7 @@ services:
       - .env.docker
   certbot:
     image: certbot/certbot
+    container_name: ow-stadium-api-certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
