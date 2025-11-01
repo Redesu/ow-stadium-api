@@ -46,9 +46,9 @@ services:
     command: sleep 1d
 
 secrets:
-  DB_PASSWORD:
+  db_password:
     file: db_password.txt
-  DB_URL:
+  db_url:
     file: db_url.txt
 
 volumes:
