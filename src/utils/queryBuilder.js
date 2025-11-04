@@ -16,9 +16,7 @@ export const buildDynamicHeroesQuery = (filters) => {
 };
 
 export const buildDynamicPowersQuery = (filters) => {
-    console.log('filters:', filters.image_url)
     const includeImage = filters.image_url === 'true';
-    console.log(includeImage)
 
     const selectedFilters = [
         'h.name as Hero',
