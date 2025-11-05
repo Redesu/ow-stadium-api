@@ -8,7 +8,7 @@ A back-end RESTful API for managing Overwatch-style heroes, powers, and items. B
 ## This project features a Discord Bot, invite to your server [HERE](https://discord.com/api/oauth2/authorize?client_id=1434270244523872276&scope=bot&permissions=51200)
 
 > [!WARNING]  
-> The API currently limits requests to 50 per 15 minutes.
+> The API currently limits requests to 50 requests per 15 minutes. This limit may be increased in the future.
 
 *(Port may vary based on your `.env` configuration)*
 
