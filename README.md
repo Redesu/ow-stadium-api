@@ -5,6 +5,7 @@ A back-end RESTful API for managing Overwatch-style heroes, powers, and items. B
 -----
 
 ## You can find the live API documentation [HERE](https://ow-stadium-api.redesu.com.br/)
+## This project features a Discord Bot, invite to your server [HERE](https://discord.com/api/oauth2/authorize?client_id=1434270244523872276&scope=bot&permissions=51200)
 
 *(Port may vary based on your `.env` configuration)*
 
