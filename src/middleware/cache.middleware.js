@@ -7,8 +7,8 @@ export const cacheMiddleware = async (req, res, next) => {
         const cached = await client.get(cacheKey);
 
         if (cached) {
-            console.log('Cache hit');
-            return res.status(200).json(JSON.parse(cached.toString()));
+            const { statusCode, body } = JSON.parse(cached.toString());
+            return res.status(statusCode).json(body);
         }
 
         const originalJson = res.json.bind(res);
@@ -20,6 +20,7 @@ export const cacheMiddleware = async (req, res, next) => {
 
         next();
     } catch (err) {
+        console.error(err);
         next(); // if redis is down, we don't want to fail
     }
 }
