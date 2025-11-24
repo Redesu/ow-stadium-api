@@ -54,6 +54,25 @@ const router = Router();
  *                 type: number
  *                 description: The hero id (optional)
  *                 example: 276
+ *               stats:
+ *                 type: array
+ *                 description: The item stats (optional)
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     stat_type:
+ *                       type: string
+ *                     stat_value:
+ *                       type: number
+ *                     stat_unit:
+ *                       type: string
+ *                     stat_modifier:
+ *                       type: string
+ *                 example:
+ *                   - stat_type: Weapon Power
+ *                     stat_value: 25
+ *                     stat_unit: '%'
+ *                     stat_modifier: '+'
  *     responses:
  *       201:
  *         description: Hero created successfully
@@ -62,7 +81,7 @@ const router = Router();
  *       400:
  *         description: Invalid input
  */
-router.post('/', protect, addItem);
+router.post("/", protect, addItem);
 
 /**
  * @swagger
@@ -112,61 +131,61 @@ router.post('/', protect, addItem);
  *       404:
  *         description: Item not found
  */
-router.get('/', cacheMiddleware, searchItems);
+router.get("/", cacheMiddleware, searchItems);
 
 /**
  * @swagger
- * /api/items: 
- *   put: 
+ * /api/items:
+ *   put:
  *    summary: Updates an item
- *    tags: [Items] 
- *    security: 
- *      - bearerAuth: [] 
- *    requestBody: 
- *      required: true 
- *      content: 
- *        application/json: 
- *          schema: 
- *            type: object 
- *            required: 
+ *    tags: [Items]
+ *    security:
+ *      - bearerAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
  *              - name
- *            properties: 
- *              id: 
+ *            properties:
+ *              id:
  *                type: number
  *                description: The item id
  *                example: 1
- *              rarity: 
+ *              rarity:
  *                type: string
  *                description: The item rarity
  *                example: epic
- *              name: 
+ *              name:
  *                type: string
  *                description: The item name
  *                example: Eye of the Spider
- *              description: 
+ *              description:
  *                type: string
  *                description: The item description
  *                example: Deal 10% increased damage to enemies below 30% Life.
- *              price: 
+ *              price:
  *                type: number
  *                description: The item price
  *                example: 14000
- *              image_url: 
+ *              image_url:
  *                type: string
  *                description: The item image url (optional)
  *                example: https://example.com/image.jpg
- *              hero_id: 
+ *              hero_id:
  *                type: number
  *                description: The hero id (optional)
  *                example: 276
- *    responses: 
- *      200: 
+ *    responses:
+ *      200:
  *        description: Item updated successfully
- *      401: 
+ *      401:
  *        description: Unauthorized
- *      400: 
+ *      400:
  *        description: Invalid input
  * */
-router.put('/', protect, updateItem);
+router.put("/", protect, updateItem);
 
 export default router;
