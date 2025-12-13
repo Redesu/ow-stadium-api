@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS heroes(
 
 CREATE TABLE IF NOT EXISTS powers(
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     hero_id INTEGER NOT NULL,
     image_url TEXT,
