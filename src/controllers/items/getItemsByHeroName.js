@@ -1,42 +1,50 @@
 import db from "../../config/db.js";
 
 export const getItemsByHeroName = async (req, res, next) => {
-    try {
-        const { heroName } = req.params;
-        const { image_url } = req.query;
+  try {
+    const { heroName } = req.params;
+    const { image_url } = req.query;
 
-        if (!heroName) {
-            return res.status(400).json({ message: 'Hero name is required!' })
-        }
+    if (!heroName) {
+      return res.status(400).json({ message: "Hero name is required!" });
+    }
 
-        const selectedFilters = [
-            'i.rarity',
-            'h.name as Hero',
-            'i.name',
-            's.stat_type',
-            's.stat_value',
-            's.stat_unit',
-            's.stat_modifier',
-            'i.description',
-            'i.type',
-            'i.price',
-        ]
+    const selectedFilters = [
+      "i.rarity",
+      "h.name as hero",
+      "i.name",
+      "i.description",
+      "i.type",
+      "i.price",
+    ];
 
-        if (image_url === 'true') selectedFilters.push('i.image_url');
+    if (image_url === "true") selectedFilters.push("i.image_url");
 
-        const result = await db.query(`
-            SELECT ${selectedFilters.join(', ')} FROM ITEMS i
+    const result = await db.query(
+      `
+            SELECT ${selectedFilters.join(", ")},
+            JSON_AGG(
+              JSON_BUILD_OBJECT(
+                   'stat_type', s.stat_type,
+                   'stat_value', s.stat_value,
+                   'stat_unit', s.stat_unit,
+                   'stat_modifier', s.stat_modifier
+                )
+            ) AS stats
+            FROM ITEMS i
             INNER JOIN ITEMS_STATS s ON i.id = s.item_id
             INNER JOIN HEROES h ON i.hero_id = h.id
-            WHERE h.name ILIKE $1`,
-            [heroName]);
+            WHERE h.name ILIKE $1
+            GROUP BY i.id, h.name, ${selectedFilters.join(", ")}`,
+      [heroName]
+    );
 
-        if (result.rows.length === 0) {
-            return res.status(404).json({ message: 'Item not found' });
-        }
-
-        res.status(200).json(result.rows);
-    } catch (err) {
-        next(err);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Item not found" });
     }
-}
+
+    res.status(200).json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+};
