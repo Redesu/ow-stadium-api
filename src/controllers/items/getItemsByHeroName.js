@@ -20,6 +20,18 @@ export const getItemsByHeroName = async (req, res, next) => {
 
     if (image_url === "true") selectedFilters.push("i.image_url");
 
+    const groupByColumns = [
+      "i.id",
+      "i.rarity",
+      "h.name",
+      "i.name",
+      "i.description",
+      "i.type",
+      "i.price",
+    ];
+
+    if (image_url === "true") groupByColumns.push("i.image_url");
+
     const result = await db.query(
       `
             SELECT ${selectedFilters.join(", ")},
@@ -30,12 +42,12 @@ export const getItemsByHeroName = async (req, res, next) => {
                    'stat_unit', s.stat_unit,
                    'stat_modifier', s.stat_modifier
                 )
-            ) AS stats
+            ) as stats
             FROM ITEMS i
             INNER JOIN ITEMS_STATS s ON i.id = s.item_id
             INNER JOIN HEROES h ON i.hero_id = h.id
             WHERE h.name ILIKE $1
-            GROUP BY i.id, h.name, ${selectedFilters.join(", ")}`,
+            GROUP BY i.id, h.name, ${groupByColumns.join(", ")}`,
       [heroName]
     );
 
