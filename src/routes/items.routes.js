@@ -150,10 +150,6 @@ router.get("/", cacheMiddleware, searchItems);
  *            required:
  *              - name
  *            properties:
- *              id:
- *                type: number
- *                description: The item id
- *                example: 1
  *              rarity:
  *                type: string
  *                description: The item rarity
