@@ -11,6 +11,10 @@ export const updatePower = async (req, res, next) => {
         const { query, params } = buildPartialUpdateQuery('powers', power);
         const result = await db.query(query, params);
 
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Power not found' });
+        }
+
         res.status(200).json(result.rows[0]);
     } catch (err) {
         next(err);
