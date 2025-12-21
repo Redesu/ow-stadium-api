@@ -45,6 +45,7 @@ router.post('/', protect, addHero);
  * /api/heroes:
  *   get:
  *     summary: List of Heroes IDs, names and roles
+ *     description: It treats the first query parameter as 'name' if 'role' is not explicitly provided.
  *     tags: [Heroes]
  *     parameters:
  *       - in: query
