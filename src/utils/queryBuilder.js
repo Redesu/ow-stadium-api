@@ -136,7 +136,7 @@ export const buildInsertQuery = (tableName, data) => {
 export const buildPartialUpdateQuery = (
   tableName,
   data,
-  identifierColumn = "name"
+  identifierColumn = "name",
 ) => {
   const updates = [];
   const values = [];

@@ -1,12 +1,12 @@
 export const errorHandler = (err, req, res, next) => {
-    console.error('Error: ', err);
+  console.error("Error: ", err);
 
-    const statusCode = err.statusCode || 500;
+  const statusCode = err.statusCode || 500;
 
-    res.status(statusCode).json({
-        error: {
-            message: err.message || 'Something went wrong',
-            ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-        }
-    });
+  res.status(statusCode).json({
+    error: {
+      message: err.message || "Something went wrong",
+      ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    },
+  });
 };

@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { protect } from "../middleware/auth.middleware.js";
-import { addHero, getPowersByHeroName, searchHeroes, updateHero } from "../controllers/index.js";
+import {
+  addHero,
+  getPowersByHeroName,
+  searchHeroes,
+  updateHero,
+} from "../controllers/index.js";
 import { getItemsByHeroName } from "../controllers/items/getItemsByHeroName.js";
 import { cacheMiddleware } from "../middleware/cache.middleware.js";
 
@@ -38,7 +43,7 @@ const router = Router();
  *       400:
  *         description: Invalid input
  */
-router.post('/', protect, addHero);
+router.post("/", protect, addHero);
 
 /**
  * @swagger
@@ -64,7 +69,7 @@ router.post('/', protect, addHero);
  *       404:
  *         description: Hero not found
  */
-router.get('/', cacheMiddleware, searchHeroes);
+router.get("/", cacheMiddleware, searchHeroes);
 
 /**
  * @swagger
@@ -92,7 +97,7 @@ router.get('/', cacheMiddleware, searchHeroes);
  *       404:
  *         description: Power or hero not found
  */
-router.get('/:heroName/powers', cacheMiddleware, getPowersByHeroName);
+router.get("/:heroName/powers", cacheMiddleware, getPowersByHeroName);
 
 /**
  * @swagger
@@ -111,7 +116,7 @@ router.get('/:heroName/powers', cacheMiddleware, getPowersByHeroName);
  *         name: image_url
  *         schema:
  *          type: boolean
- *         description: Determine if it should return the image url or not, default is false 
+ *         description: Determine if it should return the image url or not, default is false
  *     responses:
  *       200:
  *         description: Found Hero/Heroes
@@ -120,7 +125,7 @@ router.get('/:heroName/powers', cacheMiddleware, getPowersByHeroName);
  *       404:
  *         description: Items or Hero not found
  */
-router.get('/:heroName/items', cacheMiddleware, getItemsByHeroName);
+router.get("/:heroName/items", cacheMiddleware, getItemsByHeroName);
 
 /**
  * @swagger
@@ -154,7 +159,6 @@ router.get('/:heroName/items', cacheMiddleware, getItemsByHeroName);
  *       400:
  *         description: Invalid input
  */
-router.put('/', protect, updateHero);
+router.put("/", protect, updateHero);
 
 export default router;
-

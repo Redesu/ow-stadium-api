@@ -4,7 +4,7 @@ import { updater } from "../sync/updater.js";
 
 const router = Router();
 
-/** 
+/**
  * @swagger
  * /api/sync:
  *   post:
@@ -38,6 +38,6 @@ const router = Router();
  *       404:
  *         description: Power/Item not found
  */
-router.post('/', protect, updater);
+router.post("/", protect, updater);
 
 export default router;

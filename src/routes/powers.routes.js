@@ -48,12 +48,12 @@ const router = Router();
  *         description: Unauthorized
  *       400:
  *         description: Invalid input
- * 
- * 
+ *
+ *
  */
-router.post('/', protect, addPower);
+router.post("/", protect, addPower);
 
-/** 
+/**
  * @swagger
  * /api/powers:
  *   get:
@@ -86,7 +86,7 @@ router.post('/', protect, addPower);
  *       404:
  *         description: Power not found
  */
-router.get('/', cacheMiddleware, searchPowers);
+router.get("/", cacheMiddleware, searchPowers);
 
 /**
  * @swagger
@@ -129,6 +129,6 @@ router.get('/', cacheMiddleware, searchPowers);
  *       400:
  *         description: Invalid input
  */
-router.put('/', protect, updatePower);
+router.put("/", protect, updatePower);
 
 export default router;

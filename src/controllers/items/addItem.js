@@ -31,7 +31,7 @@ export const addItem = async (req, res, next) => {
 
         const { query: statQuery, params: statParams } = buildInsertQuery(
           "items_stats",
-          statData
+          statData,
         );
         await db.query(statQuery, statParams);
       }
