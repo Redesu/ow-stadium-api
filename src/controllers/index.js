@@ -11,3 +11,5 @@ export * from "./powers/addPower.js";
 export * from "./powers/getPower.js";
 export * from "./powers/getPowersByHeroName.js";
 export * from "./powers/updatePower.js";
+
+export * from "./search/getSearch.js";

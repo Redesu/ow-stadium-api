@@ -48,7 +48,7 @@ export const getItemsByHeroName = async (req, res, next) => {
             INNER JOIN HEROES h ON i.hero_id = h.id
             WHERE h.name ILIKE $1
             GROUP BY i.id, h.name, ${groupByColumns.join(", ")}`,
-      [heroName]
+      [heroName],
     );
 
     if (result.rows.length === 0) {

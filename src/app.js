@@ -3,6 +3,7 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import heroesRouter from "./routes/heroes.routes.js";
 import itemsRouter from "./routes/items.routes.js";
 import powersRouter from "./routes/powers.routes.js";
+import searchRouter from "./routes/search.routes.js";
 import syncRouter from "./routes/sync.routes.js";
 import { serve, setup } from "swagger-ui-express";
 import { swaggerSpec } from "../swagger.js";
@@ -34,6 +35,7 @@ app.use(apiLimiter);
 app.use("/api/heroes", heroesRouter);
 app.use("/api/items", itemsRouter);
 app.use("/api/powers", powersRouter);
+app.use("/api/search", searchRouter);
 app.use("/api/sync", syncRouter);
 
 app.use("/api/docs", serve, setup(swaggerSpec));
