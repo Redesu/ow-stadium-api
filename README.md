@@ -139,11 +139,15 @@ All endpoints are prefixed with `/api`.
   - `POST /`: (Protected) Create a new power.
   - `PUT /`: (Protected) Update an existing power.
 
+**Search Endpoints (`/search`)**
+
+  - `GET /`: Search for entities across multiple collections including items, item stats and powers. You can use abbreviations for specific item stats eg. `wp`, `ap`, ``, etc.
+
 **Sync Endpoint (`/sync`)**
 
   - `POST /`: (Protected) Syncs an item or power description. Takes a `name` and `description` (the patch note) in the body.
 
------
+----- 
 
 ## Contributing
 
