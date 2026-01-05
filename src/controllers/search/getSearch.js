@@ -19,7 +19,7 @@ export const search = async (req, res, next) => {
       wp: "Weapon Power",
       hp: "Health",
       as: "Attack Speed",
-      sh: "Shield",
+      sh: "Shields",
       ar: "Armor",
       al: "Ability Lifesteal",
       cr: "Cooldown Reduction",
@@ -29,8 +29,11 @@ export const search = async (req, res, next) => {
       has: "Health, Shields, and Armor",
     };
 
-    const convertedTerms =
-      itemsStatsMap[querySearch.term.toLowerCase()] || querySearch.term;
+    const terms = querySearch.term.toLowerCase().split(",").map(term => term.trim().toLowerCase());
+    
+    const convertedTerms = terms.map(
+      term => itemsStatsMap[term] || term
+    );
 
     const { query, params } = buildSearchAllTablesQuery([convertedTerms]);
     const result = await db.query(query, params);
