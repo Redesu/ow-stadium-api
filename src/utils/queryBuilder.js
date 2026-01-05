@@ -109,7 +109,6 @@ export const buildDynamicItemsQuery = (filters) => {
     ) {
       const column = `i.${key}`;
       query += ` AND ${column} ILIKE $${paramCount}`;
-      console.log(query);
       params.push(`%${value}%`);
       paramCount++;
     }
@@ -177,30 +176,32 @@ export const buildSearchAllTablesQuery = (searchTerms) => {
     FROM items i
     LEFT JOIN heroes h ON i.hero_id = h.id
     INNER JOIN items_stats s ON i.id = s.item_id
-    WHERE i.name ILIKE ANY($1) OR i.type ILIKE ANY($1) OR i.description ILIKE ANY($1)
+    WHERE i.name ILIKE ANY($1)
     GROUP BY h.name, i.name, i.type
 
     UNION ALL
 
-    SELECT 'powers' AS collection, p.name::text AS name, h.name::text AS hero_name,
-    NULL::text AS type, NULL::jsonb as stats
-    FROM powers p
-    INNER JOIN heroes h ON p.hero_id = h.id
-    WHERE p.name ILIKE ANY($1) OR p.description ILIKE ANY($1)
-
-    UNION ALL
-
-    SELECT 'items_stats' AS collection, i.name::text AS name, h.name::text AS hero_name,
-    NULL::text AS type, JSON_BUILD_OBJECT(
-            'stat_type', s.stat_type,
-            'stat_value', s.stat_value,
-            'stat_unit', s.stat_unit,      
-            'stat_modifier', s.stat_modifier
-      )::jsonb as stats
+    SELECT 'items_stats' AS collection, 
+       i.name::text AS name, 
+       h.name::text AS hero_name,
+       NULL::text AS type, 
+       JSON_AGG(
+         JSON_BUILD_OBJECT(
+           'stat_type', s.stat_type,
+           'stat_value', s.stat_value,
+           'stat_unit', s.stat_unit,      
+           'stat_modifier', s.stat_modifier
+         )
+       )::jsonb as stats
     FROM items_stats s
     INNER JOIN items i ON s.item_id = i.id
     LEFT JOIN heroes h ON i.hero_id = h.id
-    WHERE s.stat_type ILIKE ANY($1);
+    WHERE i.id IN (
+      SELECT DISTINCT item_id
+      FROM items_stats  
+      WHERE stat_type ILIKE ANY($1)
+    )
+    GROUP BY i.id, i.name, h.name
 `;
 
   return { query, params: [patterns] };
