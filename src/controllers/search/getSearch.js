@@ -30,11 +30,12 @@ export const search = async (req, res, next) => {
     };
 
     const terms = querySearch.term
-      .toLowerCase()
       .split(",")
       .map((term) => term.trim().toLowerCase());
 
-    const convertedTerms = terms.map((term) => itemsStatsMap[term] || term);
+    const convertedTerms = terms.map(
+      (term) => itemsStatsMap[term] || `%${term}%`
+    );
 
     const { query, params } = buildSearchAllTablesQuery([convertedTerms]);
     const result = await db.query(query, params);
