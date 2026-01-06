@@ -19,7 +19,7 @@ export const search = async (req, res, next) => {
       wp: "Weapon Power",
       hp: "Health",
       as: "Attack Speed",
-      sh: "Shield",
+      sh: "Shields",
       ar: "Armor",
       al: "Ability Lifesteal",
       cr: "Cooldown Reduction",
@@ -30,6 +30,7 @@ export const search = async (req, res, next) => {
     };
 
     const terms = querySearch.term
+      .toLowerCase()
       .split(",")
       .map((term) => term.trim().toLowerCase());
 
