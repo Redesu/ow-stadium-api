@@ -135,7 +135,7 @@ export const buildInsertQuery = (tableName, data) => {
 export const buildPartialUpdateQuery = (
   tableName,
   data,
-  identifierColumn = "name",
+  identifierColumn = "name"
 ) => {
   const updates = [];
   const values = [];
@@ -161,10 +161,15 @@ export const buildPartialUpdateQuery = (
 };
 
 export const buildSearchAllTablesQuery = (searchTerms) => {
-  const patterns = searchTerms.map((term) => `%${term}%`);
-
   const query = `
-    SELECT 'items' AS collection, i.name::text AS name, h.name::text AS hero_name, i.type::text AS type,
+    SELECT 'items' AS collection, 
+    i.name::text AS name, 
+    h.name::text AS hero_name, 
+    i.description::text AS description, 
+    i.type::text AS type, 
+    i.rarity::text AS rarity,
+    i.price::text AS price,
+    i.image_url::text AS image_url,
     JSON_AGG(
       JSON_BUILD_OBJECT(
             'stat_type', s.stat_type,
@@ -177,13 +182,17 @@ export const buildSearchAllTablesQuery = (searchTerms) => {
     LEFT JOIN heroes h ON i.hero_id = h.id
     INNER JOIN items_stats s ON i.id = s.item_id
     WHERE i.name ILIKE ANY($1)
-    GROUP BY h.name, i.name, i.type
+    GROUP BY h.name, i.name, i.type, i.image_url, i.description, i.rarity, i.price
 
     UNION ALL
 
     SELECT 'items_stats' AS collection, 
        i.name::text AS name, 
        h.name::text AS hero_name,
+       i.description::text AS description,
+       i.rarity::text AS rarity,
+       i.price::text AS price,
+       i.image_url::text AS image_url, 
        NULL::text AS type, 
        JSON_AGG(
          JSON_BUILD_OBJECT(
@@ -201,8 +210,8 @@ export const buildSearchAllTablesQuery = (searchTerms) => {
       FROM items_stats  
       WHERE stat_type ILIKE ANY($1)
     )
-    GROUP BY i.id, i.name, h.name
+    GROUP BY i.id, i.name, h.name, i.image_url, i.description, i.rarity, i.price
 `;
 
-  return { query, params: [patterns] };
+  return { query, params: [searchTerms] };
 };
