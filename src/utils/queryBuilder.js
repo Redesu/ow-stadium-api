@@ -162,6 +162,7 @@ export const buildPartialUpdateQuery = (
 
 export const buildSearchAllTablesQuery = (searchTerms) => {
   const query = `
+ SELECT * FROM (
     SELECT 'items' AS collection, 
     i.name::text AS name, 
     h.name::text AS hero_name, 
@@ -211,6 +212,8 @@ export const buildSearchAllTablesQuery = (searchTerms) => {
       WHERE stat_type ILIKE ANY($1)
     )
     GROUP BY i.id, i.name, h.name, i.image_url, i.description, i.rarity, i.price
+) subquery
+ORDER BY (stats->0->>'stat_value')::numeric DESC
 `;
 
   return { query, params: [searchTerms] };
