@@ -191,10 +191,10 @@ export const buildSearchAllTablesQuery = (searchTerms) => {
        i.name::text AS name, 
        h.name::text AS hero_name,
        i.description::text AS description,
+       i.type::text AS type,
        i.rarity::text AS rarity,
        i.price::text AS price,
        i.image_url::text AS image_url, 
-       NULL::text AS type, 
        JSON_AGG(
          JSON_BUILD_OBJECT(
            'stat_type', s.stat_type,
@@ -211,7 +211,7 @@ export const buildSearchAllTablesQuery = (searchTerms) => {
       FROM items_stats  
       WHERE stat_type ILIKE ANY($1)
     )
-    GROUP BY i.id, i.name, h.name, i.image_url, i.description, i.rarity, i.price
+    GROUP BY i.id, i.name, h.name, i.image_url, i.description, i.type, i.rarity, i.price
 ) subquery
 ORDER BY (stats->0->>'stat_value')::numeric DESC
 `;
